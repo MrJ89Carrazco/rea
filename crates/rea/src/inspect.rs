@@ -433,6 +433,107 @@ pub fn wasm_cmd(path: &Path) -> ExitCode {
     report_wasm(&module)
 }
 
+/// Inspects a GGUF or safetensors model artifact.
+///
+/// # Arguments
+///
+/// * `path` - Target file path.
+///
+/// # Returns
+///
+/// Exit code.
+#[must_use]
+pub fn model_cmd(path: &Path) -> ExitCode {
+    let Some(model) = read_model(path) else {
+        eprintln!("rea model: not a GGUF or safetensors artifact");
+        return ExitCode::FAILURE;
+    };
+    report_model(&model)
+}
+
+/// Reads and parses a model artifact.
+///
+/// # Arguments
+///
+/// * `path` - Target file path.
+///
+/// # Returns
+///
+/// The inventory, or `None`.
+fn read_model(path: &Path) -> Option<rea_engine::model_artifact::ModelArtifact> {
+    let bytes = fs::read(path).ok()?;
+    rea_engine::model_artifact::parse_model(&bytes)
+}
+
+/// Prints a model artifact summary and tensors.
+///
+/// # Arguments
+///
+/// * `model` - Recovered inventory.
+///
+/// # Returns
+///
+/// Exit code.
+fn report_model(model: &rea_engine::model_artifact::ModelArtifact) -> ExitCode {
+    print!(
+        "{}",
+        rea_engine::model_artifact::format_model_summary(model)
+    );
+    for tensor in model.tensors.iter().take(20) {
+        println!("  {} {} {}", tensor.name, tensor.dtype, tensor.elements);
+    }
+    ExitCode::SUCCESS
+}
+
+/// Inspects a Godot PCK archive.
+///
+/// # Arguments
+///
+/// * `path` - Target file path.
+///
+/// # Returns
+///
+/// Exit code.
+#[must_use]
+pub fn godot_cmd(path: &Path) -> ExitCode {
+    let Some(pck) = read_godot(path) else {
+        eprintln!("rea godot: not a Godot PCK archive");
+        return ExitCode::FAILURE;
+    };
+    report_godot(&pck)
+}
+
+/// Reads and parses a Godot PCK archive.
+///
+/// # Arguments
+///
+/// * `path` - Target file path.
+///
+/// # Returns
+///
+/// The archive, or `None`.
+fn read_godot(path: &Path) -> Option<rea_engine::godot::PckArchive> {
+    let bytes = fs::read(path).ok()?;
+    rea_engine::godot::parse_pck(&bytes)
+}
+
+/// Prints a Godot PCK summary and entries.
+///
+/// # Arguments
+///
+/// * `pck` - Recovered archive.
+///
+/// # Returns
+///
+/// Exit code.
+fn report_godot(pck: &rea_engine::godot::PckArchive) -> ExitCode {
+    print!("{}", rea_engine::godot::format_pck_summary(pck));
+    for entry in pck.files.iter().take(50) {
+        println!("  {} {} bytes", entry.path, entry.size);
+    }
+    ExitCode::SUCCESS
+}
+
 /// Reads and parses a WebAssembly module.
 ///
 /// # Arguments

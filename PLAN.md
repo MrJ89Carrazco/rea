@@ -117,6 +117,16 @@ Every behavioral claim and every dependency becomes an addressable item in
 - `cargo xtask check` green; every new module documented and tested.
 - Deterministic offline behavior for all of the above (no network, no external tools).
 
+## 3d. v7.1.0 — More Artifacts & Deeper Provenance (released)
+
+**Theme:** additive format coverage and provenance depth, staying pure and offline.
+
+1. **Model artifacts.** GGUF and `safetensors` parsing; `rea model`, MCP `inspect_model_artifact`, and a report section.
+2. **Godot PCK.** v1–v3 standalone and embedded archives; `rea godot`, MCP `inspect_godot`, and a report section.
+3. **Provenance depth.** Rust `cargo-auditable` crate `source` and dependency edges in the SBOM.
+
+**Acceptance:** `cargo xtask check` green; deterministic offline behavior.
+
 ---
 
 ## 3a. v5.4.0 — Nation-State Report Redesign (in progress)

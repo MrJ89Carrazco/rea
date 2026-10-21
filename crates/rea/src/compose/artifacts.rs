@@ -60,6 +60,8 @@ pub fn sections(_analysis: &Analysis, bytes: &[u8]) -> Vec<Section> {
 /// * `bytes` - Raw target bytes.
 fn artifact_group_a(out: &mut Vec<Section>, bytes: &[u8]) {
     push_section(out, "WebAssembly", wasm_note(bytes));
+    push_section(out, "Model Artifact", model_note(bytes));
+    push_section(out, "Godot PCK", godot_note(bytes));
     push_section(out, "SQLite Database", sqlite_note(bytes));
     push_section(out, "EVM Bytecode", evm_note(bytes));
     push_section(out, "Property List", plist_note(bytes));
@@ -163,6 +165,36 @@ fn wasm_note(bytes: &[u8]) -> Option<String> {
     let ex = m.exports.len();
     let text = format!("WASM v{v}: {f} functions, {im} imports, {ex} exports.");
     Some(text)
+}
+
+/// Builds the model artifact note.
+///
+/// # Arguments
+///
+/// * `bytes` - Raw target bytes.
+///
+/// # Returns
+///
+/// The note, or `None`.
+fn model_note(bytes: &[u8]) -> Option<String> {
+    let model = rea_engine::model_artifact::parse_model(bytes)?;
+    let text = rea_engine::model_artifact::format_model_summary(&model);
+    Some(text.trim_end().to_string())
+}
+
+/// Builds the Godot PCK note.
+///
+/// # Arguments
+///
+/// * `bytes` - Raw target bytes.
+///
+/// # Returns
+///
+/// The note, or `None`.
+fn godot_note(bytes: &[u8]) -> Option<String> {
+    let pck = rea_engine::godot::parse_pck(bytes)?;
+    let text = rea_engine::godot::format_pck_summary(&pck);
+    Some(text.trim_end().to_string())
 }
 
 /// Builds the SQLite note.

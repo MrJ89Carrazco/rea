@@ -145,6 +145,12 @@ pub mod evm;
 /// Apple property list and application bundle analysis.
 pub mod plist;
 
+/// GGUF and safetensors model artifact inspection.
+pub mod model_artifact;
+
+/// Godot PCK resource archive inspection.
+pub mod godot;
+
 /// Build provenance recovery.
 pub mod provenance;
 

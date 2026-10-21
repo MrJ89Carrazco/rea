@@ -72,6 +72,12 @@ pub struct Component {
 
     /// Component kind.
     pub kind: ComponentKind,
+
+    /// Component source, such as `crates.io` or `local`.
+    pub source: String,
+
+    /// Declared dependency names.
+    pub dependencies: Vec<String>,
 }
 
 /// Recovered build provenance for a target.
@@ -165,13 +171,27 @@ fn parse_packages(provenance: &mut Provenance, json: &[u8]) {
     let Ok(value) = serde_json::from_slice::<Value>(json) else {
         return;
     };
-    let Some(packages) = value.get("packages").and_then(Value::as_array) else {
-        return;
-    };
-    provenance.components.extend(packages.iter().filter_map(package_component));
+    provenance.components.extend(components(&value));
 }
 
-/// Builds a library component from a `cargo-auditable` package object.
+/// Builds all components from one `cargo-auditable` document.
+///
+/// # Arguments
+///
+/// * `value` - Parsed JSON document.
+///
+/// # Returns
+///
+/// The component list.
+fn components(value: &Value) -> Vec<Component> {
+    let Some(packages) = value.get("packages").and_then(Value::as_array) else {
+        return Vec::new();
+    };
+    let names: Vec<&str> = packages.iter().map(package_name).collect();
+    packages.iter().filter_map(|p| package_component(p, &names)).collect()
+}
+
+/// Reads a package name.
 ///
 /// # Arguments
 ///
@@ -179,11 +199,83 @@ fn parse_packages(provenance: &mut Provenance, json: &[u8]) {
 ///
 /// # Returns
 ///
+/// The name, or an empty string.
+fn package_name(package: &Value) -> &str {
+    package.get("name").and_then(Value::as_str).unwrap_or("")
+}
+
+/// Builds a library component from a package object.
+///
+/// # Arguments
+///
+/// * `package` - Package JSON object.
+/// * `names` - Package names indexed by position.
+///
+/// # Returns
+///
 /// The component, or `None` when unnamed.
-fn package_component(package: &Value) -> Option<Component> {
+fn package_component(package: &Value, names: &[&str]) -> Option<Component> {
     let name = package.get("name").and_then(Value::as_str)?;
     let version = package.get("version").and_then(Value::as_str).unwrap_or("");
-    Some(component(name, version, ComponentKind::Library))
+    let source = package.get("source").and_then(Value::as_str).unwrap_or("");
+    let dependencies = package_dependencies(package, names);
+    Some(library(name, version, source, dependencies))
+}
+
+/// Builds a library component.
+///
+/// # Arguments
+///
+/// * `name` - Component name.
+/// * `version` - Component version.
+/// * `source` - Component source.
+/// * `dependencies` - Dependency names.
+///
+/// # Returns
+///
+/// The component.
+fn library(name: &str, version: &str, source: &str, dependencies: Vec<String>) -> Component {
+    Component {
+        name: name.to_string(),
+        version: version.to_string(),
+        kind: ComponentKind::Library,
+        source: source.to_string(),
+        dependencies,
+    }
+}
+
+/// Resolves a package's dependency indices to names.
+///
+/// # Arguments
+///
+/// * `package` - Package JSON object.
+/// * `names` - Package names indexed by position.
+///
+/// # Returns
+///
+/// The dependency names.
+fn package_dependencies(package: &Value, names: &[&str]) -> Vec<String> {
+    let mut out = Vec::new();
+    let items = package.get("dependencies").and_then(Value::as_array);
+    for index in items.into_iter().flatten().filter_map(Value::as_u64) {
+        push_dependency(&mut out, names, index);
+    }
+    out
+}
+
+/// Pushes one resolved dependency name.
+///
+/// # Arguments
+///
+/// * `out` - Accumulated names.
+/// * `names` - Package names indexed by position.
+/// * `index` - Dependency index.
+fn push_dependency(out: &mut Vec<String>, names: &[&str], index: u64) {
+    if let Some(name) = usize::try_from(index).ok().and_then(|i| names.get(i)) {
+        if !name.is_empty() {
+            out.push((*name).to_string());
+        }
+    }
 }
 
 /// Recovers a DWARF compilation directory as the build path.
@@ -455,7 +547,13 @@ fn push_main(provenance: &mut Provenance, name: &str) {
 ///
 /// The component.
 fn component(name: &str, version: &str, kind: ComponentKind) -> Component {
-    Component { name: name.to_string(), version: version.to_string(), kind }
+    Component {
+        name: name.to_string(),
+        version: version.to_string(),
+        kind,
+        source: String::new(),
+        dependencies: Vec::new(),
+    }
 }
 
 #[cfg(test)]

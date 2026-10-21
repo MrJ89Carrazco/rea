@@ -56,6 +56,8 @@ usage:
   rea evidence <file>         write an audit-grade evidence bundle
   rea verify <bundle.json>    verify an evidence bundle's integrity
   rea sbom <file>             write a CycloneDX SBOM beside the target
+  rea model <file>            inspect a GGUF or safetensors model artifact
+  rea godot <file>            inspect a Godot PCK resource archive
   rea xrefs <file> <addr>     query cross-references to address or symbol
   rea analyze <file>          alias for one-shot analysis
 
@@ -198,14 +200,42 @@ fn dispatch_named(cmd: &str, rest: &[String]) -> ExitCode {
 ///
 /// Command execution exit code.
 fn dispatch_subcommand(cmd: &str, rest: &[String]) -> ExitCode {
+    let matched = dispatch_early(cmd, rest).or_else(|| dispatch_late(cmd, rest));
+    matched.unwrap_or_else(|| dispatch_named(cmd, rest))
+}
+
+/// Dispatches the first group of subcommands.
+///
+/// # Arguments
+///
+/// * `cmd` - Subcommand keyword.
+/// * `rest` - Trailing command-line arguments.
+///
+/// # Returns
+///
+/// Exit code if matched, otherwise `None`.
+fn dispatch_early(cmd: &str, rest: &[String]) -> Option<ExitCode> {
     dispatch_inspect(cmd, rest)
         .or_else(|| dispatch_inspect2(cmd, rest))
         .or_else(|| dispatch_inspect3(cmd, rest))
         .or_else(|| dispatch_inspect4(cmd, rest))
-        .or_else(|| dispatch_inspect5(cmd, rest))
+}
+
+/// Dispatches the second group of subcommands.
+///
+/// # Arguments
+///
+/// * `cmd` - Subcommand keyword.
+/// * `rest` - Trailing command-line arguments.
+///
+/// # Returns
+///
+/// Exit code if matched, otherwise `None`.
+fn dispatch_late(cmd: &str, rest: &[String]) -> Option<ExitCode> {
+    dispatch_inspect5(cmd, rest)
         .or_else(|| dispatch_inspect6(cmd, rest))
         .or_else(|| dispatch_inspect7(cmd, rest))
-        .unwrap_or_else(|| dispatch_named(cmd, rest))
+        .or_else(|| dispatch_inspect8(cmd, rest))
 }
 
 /// Dispatches emulation and format subcommands.
@@ -629,6 +659,52 @@ fn dispatch_crypto(rest: &[String]) -> ExitCode {
 fn dispatch_wasm(rest: &[String]) -> ExitCode {
     rest.first()
         .map_or_else(usage_error, |t| crate::inspect::wasm_cmd(Path::new(t)))
+}
+
+/// Dispatches model and game-asset subcommands.
+///
+/// # Arguments
+///
+/// * `cmd` - Subcommand keyword.
+/// * `rest` - Trailing command-line arguments.
+///
+/// # Returns
+///
+/// Exit code if matched, otherwise `None`.
+fn dispatch_inspect8(cmd: &str, rest: &[String]) -> Option<ExitCode> {
+    match cmd {
+        "model" | "gguf" | "safetensors" => Some(dispatch_model(rest)),
+        "godot" | "pck" => Some(dispatch_godot(rest)),
+        _ => None,
+    }
+}
+
+/// Dispatches model artifact subcommand.
+///
+/// # Arguments
+///
+/// * `rest` - Trailing command-line arguments.
+///
+/// # Returns
+///
+/// Process exit code.
+fn dispatch_model(rest: &[String]) -> ExitCode {
+    rest.first()
+        .map_or_else(usage_error, |t| crate::inspect::model_cmd(Path::new(t)))
+}
+
+/// Dispatches Godot PCK subcommand.
+///
+/// # Arguments
+///
+/// * `rest` - Trailing command-line arguments.
+///
+/// # Returns
+///
+/// Process exit code.
+fn dispatch_godot(rest: &[String]) -> ExitCode {
+    rest.first()
+        .map_or_else(usage_error, |t| crate::inspect::godot_cmd(Path::new(t)))
 }
 
 /// Dispatches sqlite subcommand.

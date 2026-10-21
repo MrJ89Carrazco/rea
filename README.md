@@ -4,7 +4,7 @@
 
 <br>
 
-# Reverse Engineering Assistant (REA) v7.0.0
+# Reverse Engineering Assistant (REA) v7.1.0
 
 **The reverse-engineering framework you can run anywhere, with nothing installed, and actually trust.**
 
@@ -18,16 +18,13 @@ Writes `re-suspect.md`, `re-suspect.pdf`, and `re-suspect.json` next to the targ
 
 <br>
 
-# New in v7.0.0
+# New in v7.1.0
 
-REA v7.0.0 is **Understand & Trust** — a major release that reads the binary like an analyst and attributes where it came from. Everything stays pure Rust, offline, and feeds the addressable evidence bundle.
+REA v7.1.0 adds more artifacts and deeper provenance — still pure Rust, offline, and evidence-backed.
 
-- **Decompiler quality.** Recovered pseudo-C now renders real conditions from the controlling `cmp`/`test` (`if (rbx < r8)`), hoists pre-tested loops into `while (cond)` instead of `while (true)`, renders `cbz`/`cbnz` as explicit zero tests (`if (r3 != 0)`), and casts widening loads to their true integer type (`eax = (uint16_t)*(r14)`).
-- **Call-graph summary.** The report gains a deterministic call-graph section: function and edge counts, the entry point, the most-called functions, leaf count, and recursion.
-- **Cross-format behavior.** WebAssembly modules, EVM bytecode, Java classes, managed .NET assemblies, and Go binaries each get a behavior summary in the report.
-- **Emulation depth.** The p-code emulator now also recovers runtime strings written to memory during execution, alongside flag-shaped tokens.
-- **Dependency recovery.** The SBOM now enumerates linked libraries, managed `AssemblyRef` dependencies with public-key tokens, Rust `cargo-auditable` crates, and Go modules.
-- **Provenance.** Toolchain, dependencies, and build environment (PDB and DWARF build paths) are attributed in a Provenance section and as `CycloneDX`/`SPDX` properties.
+- **Model artifacts.** GGUF and `safetensors` files are parsed for version, architecture/name, tensor declarations, data types, and total parameter counts, with a new `rea model <file>` command and MCP `inspect_model_artifact` tool.
+- **Godot PCK.** Standalone and embedded Godot resource packs (formats v1–v3, including the trailing locator) are inventoried with paths, sizes, and encryption flags, with a new `rea godot <file>` command and MCP `inspect_godot` tool.
+- **Deeper provenance.** Rust `cargo-auditable` metadata now includes each crate's `source` and resolved dependency edges, surfaced in the SBOM as component properties.
 
 # Features
 
@@ -43,7 +40,7 @@ REA v7.0.0 is **Understand & Trust** — a major release that reads the binary l
 - **P-Code Emulation.** Sandboxed software emulator executes target code without native host execution, unmasking runtime strings, keys, and decrypted payloads.
 - **Protectors & Packing.** High-entropy mapping, abnormal memory layouts, W^X violations, and signature matching for commercial protectors.
 - **Indicators.** Structured extraction of URLs, IPs, emails, registry keys, file paths, commands, and user agents.
-- **Artifact Formats.** WebAssembly, SQLite, ELF core dumps, EVM bytecode, Apple property lists, Flutter APKs, PCAP/HAR captures, JavaScript source maps, and MS-DOS MZ executables.
+- **Artifact Formats.** WebAssembly, SQLite, ELF core dumps, EVM bytecode, Apple property lists, Flutter APKs, PCAP/HAR captures, JavaScript source maps, MS-DOS MZ executables, GGUF/safetensors model artifacts, and Godot PCK archives.
 - **Strict Safety.** `#![forbid(unsafe_code)]` enforced across the entire codebase. Malformed or hostile inputs can never compromise the host.
 
 <br>

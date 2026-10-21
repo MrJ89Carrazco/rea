@@ -226,6 +226,7 @@ fn format_tools() -> Value {
     json!([
         {"name": "inspect_wasm", "description": "Parses a WebAssembly module.", "inputSchema": {"type": "object"}}, {"name": "inspect_sqlite", "description": "Reads SQLite schema and rows.", "inputSchema": {"type": "object"}}, {"name": "inspect_coredump", "description": "Parses an ELF core dump.", "inputSchema": {"type": "object"}}, {"name": "inspect_evm", "description": "Disassembles EVM bytecode.", "inputSchema": {"type": "object"}},
         {"name": "inspect_plist", "description": "Parses an Apple property list.", "inputSchema": {"type": "object"}}, {"name": "inspect_sourcemap", "description": "Parses a JavaScript source map.", "inputSchema": {"type": "object"}}, {"name": "inspect_capture", "description": "Parses a pcap or HAR capture.", "inputSchema": {"type": "object"}}, {"name": "inspect_flutter", "description": "Inspects a Flutter APK.", "inputSchema": {"type": "object"}},
+        {"name": "inspect_model_artifact", "description": "Inspects a GGUF or safetensors model artifact.", "inputSchema": {"type": "object"}}, {"name": "inspect_godot", "description": "Inspects a Godot PCK archive.", "inputSchema": {"type": "object"}},
         {"name": "inspect_dos", "description": "Parses an MS-DOS MZ executable.", "inputSchema": {"type": "object"}}, {"name": "inspect_dwarf", "description": "Recovers DWARF units and functions.", "inputSchema": {"type": "object"}}, {"name": "inspect_java", "description": "Parses a Java class file.", "inputSchema": {"type": "object"}}, {"name": "inspect_arsc", "description": "Parses an Android resource table.", "inputSchema": {"type": "object"}},
         {"name": "inspect_pdb", "description": "Parses Windows PDB GUID and age.", "inputSchema": {"type": "object"}}
     ])
@@ -1089,7 +1090,7 @@ const NOT_OPEN: &str = "No target opened.";
 type FormatHandler = fn(&ServerSession) -> String;
 
 /// Format tool names and their handlers.
-const FORMAT_HANDLERS: [(&str, FormatHandler); 13] = [
+const FORMAT_HANDLERS: [(&str, FormatHandler); 15] = [
     ("inspect_wasm", call_wasm),
     ("inspect_sqlite", call_sqlite),
     ("inspect_coredump", call_core),
@@ -1103,6 +1104,8 @@ const FORMAT_HANDLERS: [(&str, FormatHandler); 13] = [
     ("inspect_java", call_java),
     ("inspect_arsc", call_arsc),
     ("inspect_pdb", call_pdb),
+    ("inspect_model_artifact", call_model),
+    ("inspect_godot", call_godot),
 ];
 
 /// Tool handler for `inspect_wasm`.
@@ -1194,6 +1197,44 @@ fn call_plist(s: &ServerSession) -> String {
     rea_engine::plist::parse_plist(bytes).map_or_else(
         || "Not a property list.".to_string(),
         |p| rea_engine::plist::format_plist_summary(&p),
+    )
+}
+
+/// Tool handler for `inspect_model_artifact`.
+///
+/// # Arguments
+///
+/// * `s` - Active server session.
+///
+/// # Returns
+///
+/// Formatted model artifact summary.
+fn call_model(s: &ServerSession) -> String {
+    let Some(bytes) = &s.bytes else {
+        return NOT_OPEN.to_string();
+    };
+    rea_engine::model_artifact::parse_model(bytes).map_or_else(
+        || "Not a model artifact.".to_string(),
+        |m| rea_engine::model_artifact::format_model_summary(&m),
+    )
+}
+
+/// Tool handler for `inspect_godot`.
+///
+/// # Arguments
+///
+/// * `s` - Active server session.
+///
+/// # Returns
+///
+/// Formatted Godot PCK summary.
+fn call_godot(s: &ServerSession) -> String {
+    let Some(bytes) = &s.bytes else {
+        return NOT_OPEN.to_string();
+    };
+    rea_engine::godot::parse_pck(bytes).map_or_else(
+        || "Not a Godot PCK archive.".to_string(),
+        |p| rea_engine::godot::format_pck_summary(&p),
     )
 }
 
@@ -1580,7 +1621,7 @@ mod tests {
     fn test_tools_catalog_count() {
         let tools = tool_catalog();
         assert!(tools.is_array());
-        assert_eq!(tools.as_array().map_or(0, Vec::len), 36);
+        assert_eq!(tools.as_array().map_or(0, Vec::len), 38);
     }
 
     /// Verifies runtime tool handlers reject empty sessions.

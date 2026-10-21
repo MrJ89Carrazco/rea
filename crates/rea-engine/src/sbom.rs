@@ -160,7 +160,42 @@ fn components(provenance: &Provenance) -> Value {
 ///
 /// The JSON object.
 fn component_json(component: &Component) -> Value {
-    json!({"type": component.kind.label(), "name": component.name, "version": component.version})
+    let mut object = json!({"type": component.kind.label(), "name": component.name, "version": component.version});
+    let properties = component_properties(component);
+    if !properties.is_empty() {
+        object["properties"] = Value::Array(properties);
+    }
+    object
+}
+
+/// Builds component properties for source and dependency edges.
+///
+/// # Arguments
+///
+/// * `component` - Recovered component.
+///
+/// # Returns
+///
+/// The property objects.
+fn component_properties(component: &Component) -> Vec<Value> {
+    let mut items = Vec::new();
+    push_prop(&mut items, "source", &component.source);
+    let deps = component.dependencies.join(", ");
+    push_prop(&mut items, "dependencies", &deps);
+    items
+}
+
+/// Pushes a property when its value is non-empty.
+///
+/// # Arguments
+///
+/// * `items` - Accumulated properties.
+/// * `name` - Property name.
+/// * `value` - Property value.
+fn push_prop(items: &mut Vec<Value>, name: &str, value: &str) {
+    if !value.is_empty() {
+        items.push(json!({"name": name, "value": value}));
+    }
 }
 
 /// Builds the `SPDX` packages array.
@@ -234,6 +269,8 @@ mod tests {
             name: "example/module".to_string(),
             version: "v1.0.0".to_string(),
             kind: crate::provenance::ComponentKind::Library,
+            source: "crates.io".to_string(),
+            dependencies: vec!["example/base".to_string()],
         }
     }
 
