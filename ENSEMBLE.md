@@ -1,1 +1,54 @@
-IyBFTlNFTUJMRS5tZCDigJQgVGhlIENvbWJpbmVkIFJFQSBTdGFjayAoTXJKODlDYXJyYXpjbyBmb3JrcykKClRoaXMgZm9yayBpcyB0aGUgYmFzZSBvZiBhIHRocmVlLXJlcG8gcmV2ZXJzZS1lbmdpbmVlcmluZyBzdGFjayBhc3NlbWJsZWQgZm9yIHRoZQpFbnNlbWJsZSBjb3VuY2lsLiBFYWNoIHJlcG8gaXMgb25lIGxheWVyOyB0b2dldGhlciB0aGV5IGFyZSBzdHJvbmdlciB0aGFuIGFueSBvbmUKb2YgdGhlbSBhbG9uZS4KCiMjIFRoZSB0aHJlZSBsYXllcnMKCjEuICoqRU5HSU5FIOKAlCB0aGlzIHJlcG8gKGBNcko4OUNhcnJhemNvL3JlYWAsIGZvcmtlZCBmcm9tIGBteXRlY2hub3RhbGVudC9yZWFgKSoqCiAgIFJFQSAoUmV2ZXJzZSBFbmdpbmVlcmluZyBBc3Npc3RhbnQpLCBhIHB1cmUtUnVzdCBmcmFtZXdvcms6IG9uZSBjb21tYW5kIHByb2R1Y2VzCiAgIGFuIGV2aWRlbmNlLWJhY2tlZCBNYXJrZG93bi9QREYvSlNPTiByZXBvcnQgb24gYSB0YXJnZXQgZmlsZTsgZGV0ZXJtaW5pc3RpYwogICBvZmZsaW5lIG1vZGUgd2l0aCBubyBBUEkga2V5LCBwbHVzIGFuIGF1dG9ub21vdXMgQUkgYW5hbHlzdCBsb29wIHdoZW4gYSBrZXkgaXMKICAgY29uZmlndXJlZC4gSXQgc2hpcHMgYW4gKipNQ1Agc2VydmVyIG1vZGUqKiAoYHJlYSBzZXJ2ZWApLCB3aGljaCBpcyBob3cgdGhlCiAgIGNvdW5jaWwncyBjb2RpbmcgYWdlbnRzIGRyaXZlIGl0LgoKMi4gKipLTk9XTEVER0Ug4oCUIGBNcko4OUNhcnJhemNvL0F3ZXNvbWUtUkVBYCAoZm9ya2VkIGZyb20gYHJlYWNoZXItei9Bd2Vzb21lLVJFQWApKioKICAgQSBjdXJhdGVkLCB2YWxpZGF0ZWQgY2F0YWxvZzogfjQ5MCB0b29scywgfjIwNiBjYXNlcywgfjEzNCBwYXBlcnMgYWNyb3NzIHNpeAogICB0YXJnZXQgZG9tYWlucyDigJQgKipXZWJzaXRlKiosIEdhbWUsIEFwcCwgTmF0aXZlIEJpbmFyeSwgRmlybXdhcmUvSGFyZHdhcmUsCiAgICoqUHJvdG9jb2wqKiDigJQgcGx1cyBhbiAqKkFnZW50cyBhbmQgTUNQKiogc2VjdGlvbi4gRm9yIHNlcnZpY2UgdGFyZ2V0cyAoaG9zdGVkCiAgIEFQSXMsIHdlYiBhcHBzLCBzdHJlYW1pbmcgZW5kcG9pbnRzKSwgc3RhcnQgaW4gV2Vic2l0ZSArIFByb3RvY29sICsgQWdlbnRzL01DUC4KCjMuICoqUExBWUJPT0tTIOKAlCBgTXJKODlDYXJyYXpjby9hd2Vzb21lLVJFQS1jYXNlc2AgKGZvcmtlZCBmcm9tCiAgIGBzb25nc2hpa2FuZzAxMTEvYXdlc29tZS1SRUEtY2FzZXNgKSoqCiAgIDg0MiB3b3JrZWQgY2FzZXMgb2YgQUktYXNzaXN0ZWQgcmV2ZXJzZSBlbmdpbmVlcmluZywgY2F0ZWdvcml6ZWQgYW5kIHJlZnJlc2hlZAogICBmcmVxdWVudGx5LiBWb2ljZS1yZWxldmFudCBlbnRyaWVzIGluY2x1ZGUgYSB2b2ljZS1pbnB1dCBjbGllbnQgcmVidWlsZCAoY2xpZW50CiAgIHJlY29yZHMgKyByZWFkcyBjdXJzb3IgY29udGV4dCArIHBhc3RlczsgcmVjb2duaXRpb24gYW5kIHBvbGlzaGluZyBzZXJ2ZXItc2lkZSkKICAgYW5kIHNtYXJ0LXNwZWFrZXIgdm9pY2UtYXNzaXN0YW50IGV4cGVyaW1lbnRzLgoKIyMgSG93IHRoZSBjb3VuY2lsIHVzZXMgdGhpcyBzdGFjawoKLSAqKkNvZGluZyBzZWF0cyBkcml2ZSB0aGUgZW5naW5lLioqIENsYXVkZSBDb2RlLCBDb2RleCwgYW5kIEFudGlncmF2aXR5IGNvbm5lY3QgdG8KICBSRUEgb3ZlciBNQ1AgZnJvbSB0aGVpciBvd24gdGVybWluYWxzOyBjaGF0IHNlYXRzIChDbGF1ZGUsIENoYXRHUFQsIEdlbWluaSwKICBDb3BpbG90KSBwbGFuIGFuZCBpbnRlcnByZXQuIE5vYm9keSBoYW5kLXdhdmVzOiBSRUEgcmVwb3J0cyBhcmUgZXZpZGVuY2UsIGFuZCB0aGUKICBncm91bmRpbmcgdmFsaWRhdG9yIGZsYWdzIGNsYWltcyBub3QgYmFja2VkIGJ5IGVuZ2luZSBvdXRwdXQuCi0gKipLbm93bGVkZ2UgYmVmb3JlIGJydXRlIGZvcmNlLioqIEJlZm9yZSB0YWtpbmcgYXBhcnQgYSBuZXcgdGFyZ2V0LCBzZWFyY2ggdGhlCiAgQXdlc29tZS1SRUEgY2F0YWxvZyBmb3IgdGhlIGRvbWFpbiBwbGF5Ym9vayBhbmQgdGhlIGNhc2VzIHJlcG8gZm9yIGEgd29ya2VkCiAgZXhhbXBsZSBvZiB0aGUgc2FtZSBzaGFwZS4KLSAqKkV2ZXJ5dGhpbmcgbGVhcm5lZCBnb2VzIGJhY2suKiogTmV3IGZpbmRpbmdzIGFyZSB3cml0dGVuIHVwIGFzIGNhc2VzIGluIG91ciBvd24KICBub3RlcyAoQnJhaW4gZmlyc3QpLCBzbyB0aGUgc3RhY2sgZ2V0cyBzbWFydGVyIHdpdGggZXZlcnkgdGFyZ2V0LgoKIyMgRmlyc3QgdGFyZ2V0IGNsYXNzOiByZWFsLXRpbWUgdm9pY2Ugc2VydmljZXMKClJlZmVyZW5jZSBzdHVkeSBhbHJlYWR5IGNvbXBsZXRlZCAoRWxldmVuTGFicyArIFdpc3ByIEZsb3cpOiB0aGUgcGF0dGVybiBib3RoCnByb2R1Y3RzIGNvbmZpcm0gaXMgYSB0aGluIGNsaWVudCAoY2FwdHVyZSwgY29udGV4dCwgcGxheWJhY2spIHdpdGggdGhlIGhlYXZ5CnN0YWdlcyDigJQgc3RyZWFtaW5nIEFTUiwgTExNLCBzdHJlYW1pbmcgVFRTIOKAlCBzZXJ2ZXItc2lkZSwgZW5naW5lZXJlZCB0byBhIGxhdGVuY3kKYnVkZ2V0IChuYXR1cmFsIGNvbnZlcnNhdGlvbiBuZWVkcyByb3VnaGx5IDw4MDAgbXMgZW5kLW9mLXNwZWVjaCB0byBmaXJzdCBhdWRpbykuCk5laXRoZXIgdXBzdHJlYW0gcmVwbyBkb2N1bWVudHMgRWxldmVuTGFicyBpbnRlcm5hbHM7IHdoYXQgdGhpcyBzdGFjayBwcm92aWRlcyBpcwp0aGUgbWV0aG9kIGFuZCB0b29saW5nIHRvIGFuYWx5emUgcHVibGljIGNsaWVudC9BUEkgc3VyZmFjZXMgb3Vyc2VsdmVzLgoKIyMgQXR0cmlidXRpb24KCkFsbCB0aHJlZSB1cHN0cmVhbXMga2VlcCB0aGVpciBvd24gbGljZW5zZXMgKHNlZSBlYWNoIHJlcG8ncyBMSUNFTlNFKS4gVGhpcyBmaWxlCmlzIGFuIGluZGV4IGFuZCBvcGVyYXRpbmcgbm90ZSwgbm90IGEgcmVsaWNlbnNlOiBjb2RlIGFuZCBjb250ZW50IHJlbWFpbiB1bmRlcgp0aGVpciBvcmlnaW5hbCB0ZXJtcywgYW5kIHVwc3RyZWFtIGNyZWRpdCBzdGF5cyBhdHRhY2hlZC4K
+# ENSEMBLE.md — The Combined REA Stack (MrJ89Carrazco forks)
+
+This fork is the base of a three-repo reverse-engineering stack assembled for the
+Ensemble council. Each repo is one layer; together they are stronger than any one
+of them alone.
+
+## The three layers
+
+1. **ENGINE — this repo (`MrJ89Carrazco/rea`, forked from `mytechnotalent/rea`)**
+   REA (Reverse Engineering Assistant), a pure-Rust framework: one command produces
+   an evidence-backed Markdown/PDF/JSON report on a target file; deterministic
+   offline mode with no API key, plus an autonomous AI analyst loop when a key is
+   configured. It ships an **MCP server mode** (`rea serve`), which is how the
+   council's coding agents drive it.
+
+2. **KNOWLEDGE — `MrJ89Carrazco/Awesome-REA` (forked from `reacher-z/Awesome-REA`)**
+   A curated, validated catalog: ~490 tools, ~206 cases, ~134 papers across six
+   target domains — **Website**, Game, App, Native Binary, Firmware/Hardware,
+   **Protocol** — plus an **Agents and MCP** section. For service targets (hosted
+   APIs, web apps, streaming endpoints), start in Website + Protocol + Agents/MCP.
+
+3. **PLAYBOOKS — `MrJ89Carrazco/awesome-REA-cases` (forked from
+   `songshikang0111/awesome-REA-cases`)**
+   842 worked cases of AI-assisted reverse engineering, categorized and refreshed
+   frequently. Voice-relevant entries include a voice-input client rebuild (client
+   records + reads cursor context + pastes; recognition and polishing server-side)
+   and smart-speaker voice-assistant experiments.
+
+## How the council uses this stack
+
+- **Coding seats drive the engine.** Claude Code, Codex, and Antigravity connect to
+  REA over MCP from their own terminals; chat seats (Claude, ChatGPT, Gemini,
+  Copilot) plan and interpret. Nobody hand-waves: REA reports are evidence, and the
+  grounding validator flags claims not backed by engine output.
+- **Knowledge before brute force.** Before taking apart a new target, search the
+  Awesome-REA catalog for the domain playbook and the cases repo for a worked
+  example of the same shape.
+- **Everything learned goes back.** New findings are written up as cases in our own
+  notes (Brain first), so the stack gets smarter with every target.
+
+## First target class: real-time voice services
+
+Reference study already completed (ElevenLabs + Wispr Flow): the pattern both
+products confirm is a thin client (capture, context, playback) with the heavy
+stages — streaming ASR, LLM, streaming TTS — server-side, engineered to a latency
+budget (natural conversation needs roughly <800 ms end-of-speech to first audio).
+Neither upstream repo documents ElevenLabs internals; what this stack provides is
+the method and tooling to analyze public client/API surfaces ourselves.
+
+## Attribution
+
+All three upstreams keep their own licenses (see each repo's LICENSE). This file
+is an index and operating note, not a relicense: code and content remain under
+their original terms, and upstream credit stays attached.
